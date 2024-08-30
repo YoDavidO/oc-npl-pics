@@ -1,0 +1,30 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import {Button, Card, Heading, Input} from "fulldev-ui"
+
+const {cookies, redirect} = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (accessToken && refreshToken) {
+  redirect("/home");
+}
+---
+
+<MainLayout title="Sign In">
+  <div class="container mx-auto flex items-center justify-center h-full">
+    <Card frame="panel" size="lg" variant="outline" style={{width: "min(500px, 100%)"}}>
+      <form id="signin_form" class="h-full w-full" method="post" action="/api/auth/signin">
+        <div class="flex flex-col items-center w-full" style={{gap: "1rem"}}>
+          <Heading>Sign In</Heading>
+          <Input color="base" label="Email" name="email" placeholder="Email"/>
+          <Input color="base" label="Password" name="password" placeholder="Password" type="password"/>
+          <Button class="w-full" color="brand" href="javascript:{}"
+                  onclick="document.getElementById('signin_form').submit()">Sign In
+          </Button>
+        </div>
+      </form>
+    </Card>
+  </div>
+</MainLayout>

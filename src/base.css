@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import 'tailwindcss/base' layer(base);
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import '@radix-ui/colors/violet.css';
+
+:root, .theme-light {
+    --brand-1: var(--violet-1);
+    --brand-2: var(--violet-2);
+    --brand-3: var(--violet-3);
+    --brand-4: var(--violet-4);
+    --brand-5: var(--violet-5);
+    --brand-6: var(--violet-6);
+    --brand-7: var(--violet-7);
+    --brand-8: var(--violet-8);
+    --brand-9: var(--violet-9);
+    --brand-10: var(--violet-10);
+    --brand-11: var(--violet-11);
+    --brand-12: var(--violet-12);
+}

@@ -1,0 +1,56 @@
+---
+import {Button, Header, Heading} from "fulldev-ui";
+
+import MainLayout from "../layouts/MainLayout.astro";
+import {supabase} from "../lib/supabase";
+
+const {cookies, redirect} = Astro;
+
+const accessToken = cookies.get("sb-access-token");
+const refreshToken = cookies.get("sb-refresh-token");
+
+if (!accessToken || !refreshToken) {
+  redirect("/signin");
+}
+
+const {data, error} = await supabase.auth.setSession({
+  refresh_token: refreshToken.value,
+  access_token: accessToken.value,
+});
+
+if (error) {
+  cookies.delete("sb-access-token", {path: "/"});
+  cookies.delete("sb-refresh-token", {path: "/"});
+
+  return redirect("/signin");
+}
+
+const {data: buckets} = await supabase.storage.listBuckets();
+const {data: images, error: imagesError} = await supabase.storage.from('opening-tourney-2024').list('/pics');
+console.log(images, buckets);
+
+// const response = await fetch("http://localhost:4321/api/images/images?bucket=opening-tourney-2024").then(res => console.log(res.json())).catch(err => console.log(err));
+// const images = response.json();
+---
+
+<MainLayout title="Home">
+  <Header class="flex items-center" variant="outline">
+    <Heading>Orlando City - Boys U16 NPL</Heading>
+    <form id="signout_form" class="ml-auto" action="/api/auth/signout">
+      <Button variant="surface" color="brand" href="javascript:{}"
+              onclick="document.getElementById('signout_form').submit()">Sign Out
+      </Button>
+    </form>
+    <!--    {images.map((image) => {
+          const {publicURL, error} = supabase.storage.from('opening-tourney-2024').getPublicUrl(image.name);
+
+          if (error) {
+            throw error;
+          }
+
+          return (
+            <img src={publicURL} alt="Image"/>
+          );
+        })}-->
+  </Header>
+</MainLayout>
