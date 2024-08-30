@@ -13,7 +13,7 @@ if (!accessToken || !refreshToken) {
   redirect("/signin");
 }
 
-const {data, error} = await supabase.auth.setSession({
+const {error} = await supabase.auth.setSession({
   refresh_token: refreshToken.value,
   access_token: accessToken.value,
 });
@@ -26,8 +26,8 @@ if (error) {
 }
 
 const {data: buckets} = await supabase.storage.listBuckets();
-const {data: images, error: imagesError} = await supabase.storage.from('opening-tourney-2024').list('/pics');
-console.log(images, buckets);
+const {data: images} = await supabase.storage.from('opening-tourney-2024').list('/pics');
+console.log(buckets);
 
 // const response = await fetch("http://localhost:4321/api/images/images?bucket=opening-tourney-2024").then(res => console.log(res.json())).catch(err => console.log(err));
 // const images = response.json();
@@ -41,16 +41,16 @@ console.log(images, buckets);
               onclick="document.getElementById('signout_form').submit()">Sign Out
       </Button>
     </form>
-    <!--    {images.map((image) => {
-          const {publicURL, error} = supabase.storage.from('opening-tourney-2024').getPublicUrl(image.name);
+    {images.map((image) => {
+      const {publicURL, error} = supabase.storage.from('opening-tourney-2024').getPublicUrl(image.name);
 
-          if (error) {
-            throw error;
-          }
+      if (error) {
+        throw error;
+      }
 
-          return (
-            <img src={publicURL} alt="Image"/>
-          );
-        })}-->
+      return (
+        <img src={publicURL} alt="Image"/>
+      );
+    })}
   </Header>
 </MainLayout>
