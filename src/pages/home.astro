@@ -25,8 +25,7 @@ if (error) {
   return redirect("/signin");
 }
 
-const {data: images, error: imagesError} = await Astro.callAction(actions.images.getImages, { bucket: 'opening-tourney-2024', path: '/pics' });
-console.log(images);
+const {data: images, error: imagesError} = await Astro.callAction(actions.images.getImages, { bucket: 'images', path: '' });
 ---
 
 <MainLayout title="Home">
@@ -38,5 +37,6 @@ console.log(images);
       </Button>
     </form>
     {images?.map(imageUrl => <img src={imageUrl} alt="Image"/>)}
+    {imagesError && <p>{imagesError.message}</p>}
   </Header>
 </MainLayout>

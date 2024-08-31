@@ -16,7 +16,8 @@ export const images = {
         });
       }
 
-      const { data, error } = await supabase.storage.from(bucket).list(path);
+      const { data, error } = await supabase.storage.from('images').list();
+      console.log('data', data);
 
       if (error) {
         throw new ActionError({
